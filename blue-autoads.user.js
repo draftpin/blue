@@ -16,28 +16,28 @@
 	const waitMs = (ms) => new Promise((resolve) => setTimeout(() => resolve(true), ms))
 	let claimDone = false
 
-  function closeModal() {
+	function closeModal() {
 		const blueBox = document.querySelector('[class^=_container_].white-box button.blue-box')
 		if (blueBox) return blueBox.click()
 	}
 
 	function autoClaim() {
-    if (closeModal()) return
-    const claimButton = document.querySelector('[class^=_claimButton_]')
+		if (closeModal()) return
+		const claimButton = document.querySelector('[class^=_claimButton_]')
 
-    console.log('Checking claim button... ', claimButton)
-    if (!claimButton) return
+		console.log('Checking claim button... ', claimButton)
+		if (!claimButton) return
 
-    const claimPoints = parseInt(claimButton.innerText?.split(' [')[1].replace(/[^0-9]/g, ''), 10)
-    if (claimPoints < 1000) {
-	    claimDone = true
-	    console.log('Already claimed: ', claimPoints)
-	    return 'OK'
-	  }
-	  console.log('Autoclaiming: ', claimPoints)
-	  setTimeout(() => claimDone = false, 60 * 60 * 1000)
-	  claimButton.click()
-	  return
+		const claimPoints = parseInt(claimButton.innerText?.split(' [')[1].replace(/[^0-9]/g, ''), 10)
+		if (claimPoints < 1000) {
+			claimDone = true
+			console.log('Already claimed: ', claimPoints)
+			return 'OK'
+		}
+		console.log('Autoclaiming: ', claimPoints)
+		setTimeout(() => claimDone = false, 60 * 60 * 1000)
+		claimButton.click()
+		return
 	}
 
 	function watchAds () {
@@ -46,21 +46,21 @@
 			const adsTasklink = document.querySelectorAll('[class^=_navBar_] ul li a')[1]
 			return adsTasklink && adsTasklink.click()
 		}
-    const tab = document.querySelector('[class^=_tabBar_] > div')
-    if (tab && !tab.className.includes('_activeTab')) return tab.click()
-    const adsInProgress = document.querySelector('[class^=_banner]') || document.body.nextElementSibling?.shadowRoot === null
-    if (adsInProgress) return
-    const startButtonSelector = '[class^=_taskButton_]'
-    const adsWatchingHero = Array.from(document.querySelectorAll('[class^=_row_]')).find(el => el.innerText.includes('Ads watching hero (500 ads done)\n[0'))
-    if (adsWatchingHero) {
-      const button = adsWatchingHero.querySelector(startButtonSelector)
-      if (button) return button.click()
-      return 'OK'
-    }
+		const tab = document.querySelector('[class^=_tabBar_] > div')
+		if (tab && !tab.className.includes('_activeTab')) return tab.click()
+		const adsInProgress = document.querySelector('[class^=_banner]') || document.body.nextElementSibling?.shadowRoot === null
+		if (adsInProgress) return
+		const startButtonSelector = '[class^=_taskButton_]'
+		const adsWatchingHero = Array.from(document.querySelectorAll('[class^=_row_]')).find(el => el.innerText.includes('Ads watching hero (500 ads done)\n[0'))
+		if (adsWatchingHero) {
+			const button = adsWatchingHero.querySelector(startButtonSelector)
+			if (button) return button.click()
+			return 'OK'
+		}
 		return document.querySelector(startButtonSelector).click()
 	}
 	async function autoAds () {
-	  while (autoClaim() !== 'OK') await waitMs(5000)
+		while (autoClaim() !== 'OK') await waitMs(5000)
 		while(watchAds() !== 'OK') await waitMs(1000)
 		console.log('Задание выполнено')
 	}
