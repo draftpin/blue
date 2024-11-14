@@ -18,8 +18,18 @@
 
 	let claimDone = false
 
-	function autoRestart() {
+	async function autoRestart() {
+		await navToMain()
 		location.reload()
+	}
+
+	async function navToMain() {
+		const enterMain = document.querySelector('a[href="/"]')
+		if (enterMain && location.pathname !== '/') {
+			enterMain.click()
+			await waitMs(2000)
+		}
+		return true
 	}
 
 	function closeModal() {
