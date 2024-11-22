@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Blue AutoAds / AutoClaim
 // @namespace   Violentmonkey Scripts
-// @version     1.4
+// @version     1.5
 // @description Automatically watches ads and claims coins on start in Blue Farming bot
 // @author      Ergamon
 // @match       *://bluefarming.xyz/*
@@ -80,7 +80,7 @@
 		while(watchAds() !== 'OK') await waitMs(1000)
 		console.log(`Task completed`)
 		const restartAfterHours = getRandomInRange(1, 4)
-		setTimeout(autoRestart, restartAfterHours * 60 * 1000)
+		setTimeout(autoRestart, restartAfterHours * 60 * 60 * 1000)
 		console.log(`Autorestart after ${restartAfterHours} hours`)
 	}
 	autoAds()
